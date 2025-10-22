@@ -1,44 +1,64 @@
-def format_price(price: float) -> str:
-    return f"ціна: {price:.2f} грн"
-
-
-
-def check_availability(**products):
-
-  
-    return products
-
-
-
-def make_order(order: list, catalog: dict, action: str):
-   
-  
-
-    for item in order:
-        if item not in catalog or not catalog[item][1]:
-            return f"Товар '{item}
-            
-
-
-    if action == "check":
-        return f"Загальна {format_price(total)}"
-    elif action == "buy":
-        return f"Ви успішно купили товари: {', '.join(order)} на суму {format_price(total)}"
-    else:
-        return "Невідома дія. Використовуйте 'buy' або 'check'."
-
-
-
-
-catalog = {
-    "яблуко": (15.5, True),
-    "банан": (28.0, False),
-    "груша": (30.0, True)
+store = {
+    'apple': 15.85,
+    'banana': 202,
+    'cheese': 320,
+    'milk': 35.25,
+    'carrot': 89.9,
+    'tomato': 18,
+    'meat': 250,
+    'juice': 61
 }
 
-print(format_price(123.456))  # -> ціна: 123.46 грн
-print(check_availability(яблуко=True, банан=False, груша=True))
 
-print(make_order(["яблуко", "груша"], catalog, "check"))  # Перегляд ціни
-print(make_order(["яблуко", "груша"], catalog, "buy"))    # Купівля
-print(make_order(["яблуко", "банан"], catalog, "buy"))    # Є відсутній товар
+def format_price(price):
+    return f"price: {price:.2f} UAH"
+
+
+def check(products):
+    result = {}
+    for product in products:
+        result[product] = product in store
+    return result
+
+
+def order(products):
+    availability = check(products)
+
+    if all(availability.values()):
+        total = 0
+        for product in products:
+            total += store[product]
+        return f"Усі товари є! Загальна {format_price(total)}"
+    else:
+        miss = [product for product, available in availability.items()
+                if not available]
+        return f"Немає в наявності: {' '.join(miss)}"
+
+
+
+  
+
+def main():
+    while True:
+        print("1 - Переглянути ціну\n2 - Купити")
+        choice = input("Your choice: ")
+
+        user_input = input("Введи товари через пробіл: ")
+        products = user_input.split()
+
+        if choice == "1":
+            availability = check(products)
+            for product, is_available in availability.items():
+                if is_available:
+                    print(f"{product} – {format_price(store[product])}")
+                else:
+                    print(f"{product} – нема в наявності")
+
+        elif choice == "2":
+            print(order(products))
+        else:
+            print("Невірний вибір, спробуй ще раз.")
+
+
+if __name__ == "__main__":
+    main()
