@@ -1,0 +1,10 @@
+numpy
+requests
+pandas
+matplotlib
+Pillow
+tqdm
+beautifulsoup4
+seaborn
+scipy
+flask
