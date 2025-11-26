@@ -1,13 +1,9 @@
-from timer_logger import timer_logger   # імпортуємо декоратор з іншого файлу
-import time                             # для імітації довгої роботи
+from decorator import timer_logger
 
+@timer_logger
+def my_function():
+    for _ in range(2_000_000):
+        pass
+    return "Готово!"
 
-# --- Функція, яку будемо декорувати ---
-@timer_logger                        # застосовуємо наш декоратор
-def slow_function():                 # звичайна функція
-    time.sleep(1.5)                  # затримка 1.5 секунди
-    return "Готово!"                 # повертаємо результат
-
-
-# --- Виклик функції ---
-print(slow_function())      
+print(my_function())
