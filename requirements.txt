@@ -1,10 +1,5 @@
-numpy
 requests
+numpy
 pandas
 matplotlib
-Pillow
-tqdm
-beautifulsoup4
-seaborn
-scipy
-flask
+faker
