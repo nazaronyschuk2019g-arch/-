@@ -1,42 +1,55 @@
-# --- Імпорти 10 бібліотек ---
-import numpy as np        # імпортуємо NumPy та даємо коротке ім'я np для роботи з масивами
-import requests           # імпортуємо бібліотеку для виконання HTTP-запитів
-import pandas as pd       # імпортуємо Pandas і скорочуємо як pd для роботи з таблицями DataFrame
-import matplotlib.pyplot as plt  # імпортуємо модуль побудови графіків з Matplotlib
-from PIL import Image     # імпортуємо клас Image з бібліотеки Pillow для роботи із зображеннями
-import tqdm               # імпортуємо tqdm для показу прогрес-барів
-from bs4 import BeautifulSoup  # імпортуємо парсер HTML-документів
-import seaborn as sns     # імпортуємо Seaborn — бібліотеку для красивих графіків
-import scipy              # імпортуємо SciPy — наукова бібліотека з великою кількістю алгоритмів
-import flask              # імпортуємо Flask — фреймворк для створення веб-додатків
+# Імпорт 10 бібліотек (5 вбудованих + 5 зовнішніх)
+import math
+import random
+import datetime
+import json
+import os
 
-# --- 5 спроб використати бібліотеки ---
+import requests
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from faker import Faker
 
+print("=== Лабораторна робота №5 ===")
+
+# 1. requests
 try:
-    print(np.array([1, 2, 3]) + 1)     # створюємо масив NumPy і додаємо 1 до кожного елемента
+    response = requests.get("https://api.github.com")
+    print("Запит до GitHub API — статус:", response.status_code)
 except Exception as e:
-    print(e)                           # якщо виникне помилка — виводимо її
+    print("Помилка з requests:", e)
 
+# 2. numpy
 try:
-    r = requests.get("https://example.com")  # надсилаємо GET-запит на сервер example.com
-    print(r.status_code)                     # виводимо HTTP-код відповіді (200, 404 тощо)
+    arr = np.array([1, 2, 3, 4, 5])
+    print("Сума елементів через NumPy:", np.sum(arr))
 except Exception as e:
-    print(e)                                 # у разі помилки виводимо текст помилки
+    print("Помилка з numpy:", e)
 
+# 3. pandas
 try:
-    print(pd.DataFrame({"a": [1, 2]}))   # створюємо DataFrame з одного стовпця "a" та двох рядків
+    data = {"name": ["David", "Tom"], "age": [16, 17]}
+    df = pd.DataFrame(data)
+    print("Таблиця через Pandas:\n", df)
 except Exception as e:
-    print(e)                              # виводимо помилку, якщо щось піде не так
+    print("Помилка з pandas:", e)
 
+# 4. matplotlib
 try:
-    plt.plot([1, 2], [3, 4])             # будуємо простий графік: точки (1,3) і (2,4)
-    plt.savefig("plot.png")              # зберігаємо графік у файл plot.png
-    print("Графік ок")                   # повідомляємо, що графік створено
+    plt.plot([1, 2, 3], [2, 4, 6])
+    plt.title("Графік від matplotlib")
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.show()
 except Exception as e:
-    print(e)                             # показуємо помилку, якщо вона з'явиться
+    print("Помилка з matplotlib:", e)
 
+# 5. faker
 try:
-    Image.new("RGB", (50, 50), "blue").save("img.png")  # створюємо нове зображення 50x50 синього кольору й зберігаємо
-    print("Картинка ок")                                 # повідомляємо, що зображення збережене
+    fake = Faker()
+    print("Випадкове ім'я через Faker:", fake.name())
 except Exception as e:
-    print(e)                                             # виводимо помилку при невдалій операції
+    print("Помилка з faker:", e)
+
+print("\nРобота завершена успішно ✅")
