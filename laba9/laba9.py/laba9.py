@@ -8,7 +8,8 @@ def count_pairs(filename, pairs):
                 for pair in pairs:                        # проходимо кожну пару з заданих
                     pairs_list[pair] = 0                  # ініціалізуємо лічильник нулем
 
-                words = line.lower().split()              # робимо весь рядок маленькими буквами і ділимо на слова
+                words = line.lower().split()              # робимо нижній регістр і ділимо на слова
+
 
                 for word in words:                        # перебираємо кожне слово
                     for i in range(len(word) - 1):        # перебираємо індекси для пар
