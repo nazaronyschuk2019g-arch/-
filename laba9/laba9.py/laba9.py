@@ -1,33 +1,34 @@
-def count_pairs(filename, pairs):
-    try:
-        with open(filename, 'r', encoding='utf-8') as f:
-            for line in f:
+def count_pairs(filename, pairs):                  # # Оголошення функції-генератора, приймає ім'я файлу та список пар
+    try:                                           # # Початок блоку обробки винятків (Try-Except)
+        with open(filename, 'r', encoding='utf-8') as f: # # Відкриття файлу для читання ('r') з UTF-8 кодуванням; автоматичне закриття
+            for line in f:                         # # Початок циклу: ітерація по кожному рядку файлу
+                
+                pairs_list = {}                    # # Створення порожнього словника для зберігання лічильників пар у поточному рядку
+                
+                for pair in pairs:                 # # Цикл для ініціалізації лічильників заданих пар
+                    pairs_list[pair] = 0           # # Ініціалізація лічильника для кожної пари нулем
+                
+                words = line.lower().split()       # # Переведення рядка у нижній регістр і розбиття на список слів
+                
+                for word in words:                 # # Цикл: перебір кожного слова у списку
+                    for i in range(len(word) - 1): # # Цикл: ітерація по індексах слова, крім останнього (для формування біграм)
+                        current_pair = word[i:i+2] # # Виділення поточної пари символів (біграми)
+                        if current_pair in pairs_list: # # Перевірка, чи є поточна пара серед тих, які ми шукаємо
+                            pairs_list[current_pair] += 1 # # Якщо так, збільшуємо лічильник цієї пари
+                
+                yield pairs_list                   # # Повернення словника з результатами для поточного рядка (робить функцію генератором)
+    except Exception as e:                         # # Блок обробки винятків: ловить будь-яку помилку
+        print(f"Помилка при читанні файлу: {e}")   # # Виведення повідомлення про помилку
+        return                                     # # Завершення функції у випадку помилки
 
-                pairs_list = {}
+def main():                                        # # Оголошення основної функції
+    FILE = "text.txt"                              # # Константа: ім'я файлу для обробки
+    PAIRS = ['su', 'on', 'ps']                     # # Константа: список пар символів для пошуку
+    result = count_pairs(FILE, PAIRS)              # # Виклик генератора, отримуємо об'єкт-генератор
+    i = 1                                          # # Ініціалізація лічильника номерів рядків
+    for res in result:                             # # Цикл: ітерація по результатах, які генерує генератор
+        print(f"Рядок №{i}: {res}")                # # Виведення результатів підрахунку для поточного рядка
+        i += 1                                     # # Збільшення лічильника рядків
 
-                for pair in pairs:
-                    pairs_list[pair] = 0
-
-                words = line.lower().split()
-
-                for word in words:
-                    for i in range(len(word) - 1):
-                        current_pair = word[i:i+2]
-                        if current_pair in pairs_list:
-                            pairs_list[current_pair] += 1
-
-                yield pairs_list
-    except Exception as e:
-        print(f"Помилка при читанні файлу: {e}")
-        return
-def main():
-    FILE = "text.txt"
-    PAIRS = ['su', 'on', 'ps']
-    result = count_pairs(FILE, PAIRS)
-    i = 1
-    for res in result:
-        print(f"Рядок №{i}: {res}")
-        i += 1
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__":                         # # Перевірка: якщо скрипт запускається безпосередньо
+    main()                                         # # Виклик основної функції
