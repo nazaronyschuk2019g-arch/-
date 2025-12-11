@@ -1,38 +1,35 @@
-import telebot
-from config import BOT_TOKEN
-from core.scheduler import setup_scheduler
-from handlers.command_handlers import handle_start, handle_send_word_now
-import time
+import telebot                              # імпорт бібліотеки для телеграм-бота
+from config import BOT_TOKEN                # токен бота з конфіга
+from core.scheduler import setup_scheduler  # функція підключення планувальника
+from handlers.command_handlers import (     # імпорт обробників команд
+    handle_start,
+    handle_send_word_now
+)
+import time                                 # для паузи при помилках
 
-# Ініціалізація бота
-bot = telebot.TeleBot(BOT_TOKEN)
+
+bot = telebot.TeleBot(BOT_TOKEN)            # створення екземпляра бота
 
 
-# --- Обробники Команд ---
-
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['start'])    # обробник команди /start
 def start_message(message):
-    handle_start(message, bot)
+    handle_start(message, bot)              # виклик функції старту
 
 
-@bot.message_handler(regexp='^🔍 Отримати слово зараз$')
+@bot.message_handler(regexp='^🔍 Отримати слово зараз$')  # обробка кнопки
 def send_word_now_message(message):
-    handle_send_word_now(message, bot)
+    handle_send_word_now(message, bot)      # відправка слова "зараз"
 
 
-# --- Запуск ---
+if __name__ == '__main__':                  # запуск скрипта напряму
 
-if __name__ == '__main__':
+    setup_scheduler(bot)                    # запуск щоденного розкладу
 
-    # 1. Запуск Планувальника для щоденної розсилки
-    setup_scheduler(bot)
+    print("Бот запущено. Початок опитування Telegram...")  # лог
 
-    # 2. Запуск Бота
-    print("Бот запущено. Початок опитування Telegram...")
-
-    # Цикл polling для обробки вхідних повідомлень
     try:
-        bot.polling(none_stop=True, interval=0)
+        bot.polling(none_stop=True,         # без зупинки при помилках
+                     interval=0)            # без затримки між отриманням апдейтів
     except Exception as e:
-        print(f"Помилка під час опитування бота: {e}")
-        time.sleep(5)
+        print(f"Помилка під час опитування бота: {e}")  # лог помилки
+        time.sleep(5)                       # пауза 5 сек і повтор
