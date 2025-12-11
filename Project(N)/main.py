@@ -1,10 +1,7 @@
 import telebot                              # імпорт бібліотеки для телеграм-бота
 from config import BOT_TOKEN                # токен бота з конфіга
 from core.scheduler import setup_scheduler  # функція підключення планувальника
-from handlers.command_handlers import (     # імпорт обробників команд
-    handle_start,
-    handle_send_word_now
-)
+from handlers.command_handlers import (handle_start, handle_send_word_now) # імпорт обробників команд
 import time                                 # для паузи при помилках
 
 
@@ -33,3 +30,4 @@ if __name__ == '__main__':                  # запуск скрипта нап
     except Exception as e:
         print(f"Помилка під час опитування бота: {e}")  # лог помилки
         time.sleep(5)                       # пауза 5 сек і повтор
+
